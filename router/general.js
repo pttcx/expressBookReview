@@ -3,15 +3,16 @@ const axios = require("axios");
 
 const public_users = express.Router();
 
+const BOOK_API =
+  "https://raw.githubusercontent.com/pttcx/expressBookReview/main/booksdb.js";
+
 
 // Get all books
 public_users.get("/", async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://example.com/books"
-    );
+    const response = await axios.get(BOOK_API);
 
-    res.status(200).json(response.data);
+    res.status(200).send(response.data);
 
   } catch (error) {
     res.status(500).json({
@@ -21,18 +22,15 @@ public_users.get("/", async (req, res) => {
 });
 
 
-// Get book by ISBN
+// Get books by ISBN
 public_users.get("/isbn/:isbn", async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://example.com/books"
-    );
+    const response = await axios.get(BOOK_API);
 
     const isbn = req.params.isbn;
-    const book = response.data[isbn];
 
-    if (book) {
-      res.status(200).json(book);
+    if (response.data[isbn]) {
+      res.json(response.data[isbn]);
     } else {
       res.status(404).json({
         message: "Book not found"
@@ -50,23 +48,14 @@ public_users.get("/isbn/:isbn", async (req, res) => {
 // Get books by author
 public_users.get("/author/:author", async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://example.com/books"
-    );
+    const response = await axios.get(BOOK_API);
 
     const author = req.params.author;
 
-    const books = Object.values(response.data).filter(
-      (book) => book.author === author
-    );
+    const books = Object.values(response.data)
+      .filter(book => book.author === author);
 
-    if (books.length > 0) {
-      res.status(200).json(books);
-    } else {
-      res.status(404).json({
-        message: "No books found for this author"
-      });
-    }
+    res.json(books);
 
   } catch (error) {
     res.status(500).json({
@@ -79,23 +68,14 @@ public_users.get("/author/:author", async (req, res) => {
 // Get books by title
 public_users.get("/title/:title", async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://example.com/books"
-    );
+    const response = await axios.get(BOOK_API);
 
     const title = req.params.title;
 
-    const books = Object.values(response.data).filter(
-      (book) => book.title === title
-    );
+    const books = Object.values(response.data)
+      .filter(book => book.title === title);
 
-    if (books.length > 0) {
-      res.status(200).json(books);
-    } else {
-      res.status(404).json({
-        message: "No books found for this title"
-      });
-    }
+    res.json(books);
 
   } catch (error) {
     res.status(500).json({
