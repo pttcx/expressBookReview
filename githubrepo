@@ -1,0 +1,16 @@
+Command:
+
+curl -i https://api.github.com/repos/pttcx/expressBookReview
+
+
+Output:
+
+HTTP/2 200
+
+{
+  "full_name": "pttcx/expressBookReview",
+  "fork": true,
+  "parent": {
+    "full_name": "Ajibare/ibm-developer-skills-network"
+  }
+}
